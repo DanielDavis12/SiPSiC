@@ -1,0 +1,49 @@
+---
+title: "Infer Biological Pathway Activity from Single-Cell RNA-Seq Data"
+package: "`r pkg_ver('SiPSiC')`"
+abstract: >
+  Single Pathway analysis in Single Cells (SiPSiC) enables you to calculate a per-cell score for a biological pathway of your choice from single-cell RNA-seq (scRNA-seq) data. 
+  Its only function is the getPathwayScores function, which takes scRNA-seq data and an array containing the names of the genes comprising the relevant biological pathway, and calculates pathway scores for each cell in the data. 
+  Have the data in Transcripts-Per-Miilion (TPM) or Counts-Per-Million (CPM) units for best results.
+vignette: >
+  %\VignetteIndexEntry{Infer Biological Pathway Activity from Single-Cell RNA-Seq Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+output: 
+  BiocStyle::html_document:
+    toc: no
+    number_sections: false
+  pdf_document:
+    toc: yes
+  html_notebook:
+    toc: no
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Code Example
+```{r Example, warning=FALSE}
+library(SiPSiC)
+rowIndex <- colIndex <- matValues <- c(1:4)
+geneCountsMatrix <- Matrix::sparseMatrix(i = rowIndex, j = colIndex, x = matValues)
+
+## Make sure your matrix is indeed a sparse matrix (of type dgCMatrix)! 
+
+rownames(geneCountsMatrix) <- c("Gene1", "Gene2", "Gene3", "Gene4")
+colnames(geneCountsMatrix) <- c("Cell1", "Cell2", "Cell3", "Cell4")
+pathwayGenesList <- c("Gene1", "Gene2", "Gene4")
+scoresAndIndices <- getPathwayScores(geneCountsMatrix, pathwayGenesList)
+pathwayScoresOfCells <- scoresAndIndices$pathwayScores
+pathwayGeneIndices <- scoresAndIndices$index
+```
+
+#Session Information
+Following is the output of the 'sessionInfo()' function observed on the system on which the package was built:
+```{r}
+sessionInfo()
+```
