@@ -7,4 +7,4 @@ SiPSiC depends on R's 'Matrix' package available on CRAN.
 
 Install the package by downloading the attached .tar.gz file and executing the R CMD INSTALL command. 
 
-Developed at The Drier's lab, Lautenberg center for immunology and cancer, the Hebrew University of Jerusalem
+Developed at the Drier's lab, Lautenberg center for immunology and cancer, the Hebrew University of Jerusalem
