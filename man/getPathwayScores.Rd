@@ -26,12 +26,14 @@ a character vector of the gene names of which the relevant biological pathway co
 Daniel Davis, Yotam Drier
 }
 \examples{
-rowIndex <- colIndex <- matValues <- c(1:4)
-geneCountsMatrix <- Matrix::sparseMatrix(i = rowIndex, j = colIndex, x = matValues)
+library(SiPSiC)
+geneCountsMatrix <- matrix(rpois(16, lambda = 10), ncol = 4, nrow = 4)
+geneCountsMatrix <- as(geneCountsMatrix, "dgCMatrix")
 rownames(geneCountsMatrix) <- c("Gene1", "Gene2", "Gene3", "Gene4")
 colnames(geneCountsMatrix) <- c("Cell1", "Cell2", "Cell3", "Cell4")
+assayData <- SingleCellExperiment(assays = list(counts = geneCountsMatrix))
 pathwayGenesList <- c("Gene1", "Gene2", "Gene4")
-scoresAndIndices <- getPathwayScores(geneCountsMatrix, pathwayGenesList)
+scoresAndIndices <- getPathwayScores(assayData@assays@data@listData$counts, pathwayGenesList)
 pathwayScoresOfCells <- scoresAndIndices$pathwayScores
 pathwayGeneIndices <- scoresAndIndices$index
 }

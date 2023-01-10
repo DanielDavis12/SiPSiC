@@ -23,7 +23,7 @@ Martin Maechler ETH Zurich,  maechler@stat.math.ethz.ch | maechler@r-project.org
 Licences
 ========
 
-1. The Matrix package itself and the SiPSiC package are licenced under "GPL-3", the GNU GENERAL
+1. The Matrix, SiPSiC and SingleCellExperiment packages themselves are licenced under "GPL-3", the GNU GENERAL
    PUBLIC LICENCE Version 3, see "GPL-3" below.
 
 2. The licences of the libraries from the SuiteSparse collection mentioned

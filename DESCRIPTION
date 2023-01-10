@@ -8,8 +8,8 @@ Authors@R: c(person("Daniel", "Davis", role = c("aut", "cre"), email="DanielDavi
 Description: Infer biological pathway activity of cells from single-cell RNA-sequencing data by calculating a pathway score for each cell (pathway genes are specified by the user). It is recommended to have the data in Transcripts-Per-Million (TPM) or Counts-Per-Million (CPM) units for best results. Scores may change when adding cells to or removing cells off the data. SiPSiC stands for Single Pathway analysis in Single Cells.
 License: file LICENCE
 URL: <https://medicine.ekmd.huji.ac.il/en/research/yotamd/Pages/default.aspx>
-Depends: Matrix
 biocViews: Software, DifferentialExpression, GeneSetEnrichment, BiomedicalInformatics, CellBiology, Transcriptomics, RNASeq, SingleCell, Transcription, Sequencing
+Depends: Matrix, SingleCellExperiment
 Suggests: 
     knitr,
     rmarkdown,
