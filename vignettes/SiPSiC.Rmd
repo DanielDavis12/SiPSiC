@@ -27,6 +27,24 @@ knitr::opts_chunk$set(
 suppressPackageStartupMessages({library(SiPSiC)})
 ```
 
+# Introduction
+Single cell RNA sequencing is a prevelant practice to interrogate tissue characteristics and heterogeneity in health and disease. Finding which gene sets (pathways) are enriched in single cells allows to unravel
+the different subpopulations of cells that exist in the interrogated tissue and elucidate their biological and functional underpinnings. Different methods have been developed for this purpose, the most prominent 
+of which is AUCell. However, some of these methods, including AUCell, use gene rankings to test for such enrichment and avoid using data of different cells when calculating pathway scores for a specific cell. 
+While AUCell and other methods produced insightful results in prior research, we found that some important findings might be missed by using them. We therefore developed SiPSiC to allow the dissection of tissue 
+heterogeneity and unravel the function and biological traits of cell subpopulations. By using gene counts and the transcriptome of different cells in the data when calculating pathway scores for an individual cell, 
+SiPSiC allows to unveil subpopulation characteristics which are sometimes missed by other methods, hence it has been deposited to Bioconductor.  
+
+# Installation
+Install SiPSiC by executing the following commands in an R session:
+
+```{r setup, eval=FALSE}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("SiPSiC")
+```
+
 # Code Example
 ```{r Example, warning=FALSE}
 library(SiPSiC)
@@ -39,7 +57,7 @@ rownames(geneCountsMatrix) <- c("Gene1", "Gene2", "Gene3", "Gene4")
 colnames(geneCountsMatrix) <- c("Cell1", "Cell2", "Cell3", "Cell4")
 assayData <- SingleCellExperiment(assays = list(counts = geneCountsMatrix))
 pathwayGenesList <- c("Gene1", "Gene2", "Gene4")
-scoresAndIndices <- getPathwayScores(assayData@assays@data@listData$counts, pathwayGenesList)
+scoresAndIndices <- getPathwayScores(counts(assayData), pathwayGenesList)
 pathwayScoresOfCells <- scoresAndIndices$pathwayScores
 pathwayGeneIndices <- scoresAndIndices$index
 ```
@@ -47,10 +65,10 @@ pathwayGeneIndices <- scoresAndIndices$index
 Taking an scRNA-seq data matrix and the list of genes of which the relevant pathway consists, SiPSiC uses five steps to calculate the score for all the cells in the data; These are:
 
 ## 1. Pathway data extraction 
-Exclude all the genes which do not belong to the pathway.
+Pick only genes which belong to the pathway.
 
 ## 2. Score normalization 
-For each gene separately: If none of the cells transcribe the gene, keep the values as they are (all zeros); Otherwise, calculate the median of the 5% top transcribing cells, divide all values by this median and keep them. If the median is zero, however, the values are divided by the maximum value across all cells instead.
+For each gene separately: If none of the cells transcribe the gene, keep the values as they are (all zeros); Otherwise, calculate the median of the 5% top expressing cells, divide all values by this median and keep them. If the median is zero, however, the values are divided by the maximum value across all cells instead.
 The reason behind this step is that scRNA-seq data are normally sparse, namely, the fraction of zeros in the data is large; Thus, by selecting the median of the top 5% cells there is a high likelihood that for most genes the value will be greater than zero, while on the other hand it will also not be an outlier, which may perturb further processing steps.
 
 ## 3. Normalized gene rankings calculation
