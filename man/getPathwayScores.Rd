@@ -33,7 +33,7 @@ rownames(geneCountsMatrix) <- c("Gene1", "Gene2", "Gene3", "Gene4")
 colnames(geneCountsMatrix) <- c("Cell1", "Cell2", "Cell3", "Cell4")
 assayData <- SingleCellExperiment(assays = list(counts = geneCountsMatrix))
 pathwayGenesList <- c("Gene1", "Gene2", "Gene4")
-scoresAndIndices <- getPathwayScores(assayData@assays@data@listData$counts, pathwayGenesList)
+scoresAndIndices <- getPathwayScores(counts(assayData), pathwayGenesList)
 pathwayScoresOfCells <- scoresAndIndices$pathwayScores
 pathwayGeneIndices <- scoresAndIndices$index
 }
