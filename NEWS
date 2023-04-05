@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 Changes in version 0.99.2
 ----------------------
 - Removing files LICENCE and tar.gz off the package to meet Bioconductor package requirements
+=======
+Changes in version 0.99.2
+----------------------
+- Removing files LICENCE and tar.gz off the package to meet Bioconductor package requirements
+>>>>>>> origin/main
