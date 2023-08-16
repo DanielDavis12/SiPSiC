@@ -1,7 +1,7 @@
 Package: SiPSiC
 Type: Package
 Title: Calculate Pathway Scores for Each Cell in scRNA-Seq Data
-Version: 1.1.1
+Version: 1.0.1
 Date: 2022-12-29
 Authors@R: c(person("Daniel", "Davis", role = c("aut", "cre"), email="DanielDavis000@gmail.com", comment=c(ORCID="0000-0001-7863-1521")),
 		 person("Yotam", "Drier", role = "aut"))
