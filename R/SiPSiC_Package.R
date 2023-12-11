@@ -1,17 +1,15 @@
 # SiPSiC package - developed at the Drier's lab, Lautenberg center for immunology and cancer, the Hebrew University of Jerusalem
 
-PERCENTAGE_FOR_COUNTS_NORMALIZATION <- 5
-
-
 #' Gene counts normalization
 #'
-#' Get the counts of a single gene normalized by the median of the top 5 percent cells.
+#' Get the counts of a single gene normalized by the median of the top cells. 
+#' @param percentForNormalization The percent of top cells for each gene whose median is used to normalized the gene's expression values.
 #' @param expressionValues An array of type double, containing the counts (in any units, e.g. CPM or TPM) of a single gene across different cells.
 #' @return An array (type double) of the input counts divided by the median of the top 5 percent cells, unless it's zero; in this case, the counts are all divided by the maximum value across all cells. If all counts are zeros, they are returned untouched.
-normalizeCountsForGene <- function(expressionValues)
+normalizeCountsForGene <- function(expressionValues, percentForNormalization)
 {
   geneCountsRanked <- rank(x = expressionValues, na.last = "keep", ties.method = 'max')
-  rankOfNormalizationPercentage <- ((100 - PERCENTAGE_FOR_COUNTS_NORMALIZATION) / 100) * 
+  rankOfNormalizationPercentage <- ((100 - percentForNormalization) / 100) * 
     length(expressionValues)
   topCellCounts <- expressionValues[geneCountsRanked >= rankOfNormalizationPercentage]
   normalizationScore <- stats::median(topCellCounts)
@@ -39,11 +37,13 @@ normalizeCountsForGene <- function(expressionValues)
   return (as.vector(geneScoresForCells))
 }
 
+
 #' Pathway scores calculation
 #'
 #' Calculate the scores of a given pathway for every cell in a single-cell RNA-seq data.
 #' @param dataMatrix a matrix whose rows are genes and columns are cells, containing the gene counts; Counts-Per-Million (CPM) or Transcripts-Per-Million (TPM) units are recommended. The matrix should be of type sparse matrix ("dgCMatrix"), otherwise errors might be raised.
 #' @param pathwayGenes a character vector of the gene names of which the relevant biological pathway consists.
+#' @param percentForNormalization The percent of top cells for each gene whose median is used to normalize the gene's expression values (5 by default).
 #' @return a list containing two arrays: "$pathwayScores", an array (type double) of the pathway score of each cell in the input dataMatrix, and "$index", a numeric array of the indices in the dataMatrix where genes of the pathway were found.
 #' @examples 
 #' rowIndex <- colIndex <- matValues <- c(1:4)
@@ -51,11 +51,12 @@ normalizeCountsForGene <- function(expressionValues)
 #' rownames(geneCountsMatrix) <- c("Gene1", "Gene2", "Gene3", "Gene4")
 #' colnames(geneCountsMatrix) <- c("Cell1", "Cell2", "Cell3", "Cell4")
 #' pathwayGenesList <- c("Gene1", "Gene2", "Gene4")
-#' scoresAndIndices <- getPathwayScores(geneCountsMatrix, pathwayGenesList)
+#' percentForNormalization <- 10
+#' scoresAndIndices <- getPathwayScores(geneCountsMatrix, pathwayGenesList, percentForNormalization)
 #' pathwayScoresOfCells <- scoresAndIndices$pathwayScores
 #' pathwayGeneIndices <- scoresAndIndices$index
 #' @export
-getPathwayScores <- function(dataMatrix, pathwayGenes)
+getPathwayScores <- function(dataMatrix, pathwayGenes, percentForNormalization = 5)
 {
   # Fetching only those genes that belong to the pathway
   allGenesList <- rownames(dataMatrix)
@@ -71,7 +72,7 @@ getPathwayScores <- function(dataMatrix, pathwayGenes)
   geneScoresMatrix <- matrix(0, numOfPathwayGenes, totalCellsCount)
   rownames(geneScoresMatrix) <- rownames(pathwayOnlyData)
   colnames(geneScoresMatrix) <- colnames(pathwayOnlyData)
-  geneScoresLists <- lapply(X = split(pathwayOnlyData, row(pathwayOnlyData)), normalizeCountsForGene)
+  geneScoresLists <- lapply(X = split(pathwayOnlyData, row(pathwayOnlyData)), normalizeCountsForGene, percentForNormalization)
   geneScoresMatrix[] <- do.call("rbind", geneScoresLists)
   
   # Below - calculating the pathway score of each cell as a weighted average of all its gene scores

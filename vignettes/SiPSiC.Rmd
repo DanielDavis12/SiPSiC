@@ -57,7 +57,7 @@ rownames(geneCountsMatrix) <- c("Gene1", "Gene2", "Gene3", "Gene4")
 colnames(geneCountsMatrix) <- c("Cell1", "Cell2", "Cell3", "Cell4")
 assayData <- SingleCellExperiment(assays = list(counts = geneCountsMatrix))
 pathwayGenesList <- c("Gene1", "Gene2", "Gene4")
-scoresAndIndices <- getPathwayScores(counts(assayData), pathwayGenesList)
+scoresAndIndices <- getPathwayScores(counts(assayData), pathwayGenesList) # The third parameter, percentForNormalization, is optional; If not specified, its value is set to 5.
 pathwayScoresOfCells <- scoresAndIndices$pathwayScores
 pathwayGeneIndices <- scoresAndIndices$index
 ```
@@ -68,7 +68,7 @@ Taking an scRNA-seq data matrix and the list of genes of which the relevant path
 Pick only genes which belong to the pathway.
 
 ## 2. Score normalization 
-For each gene separately: If none of the cells transcribe the gene, keep the values as they are (all zeros); Otherwise, calculate the median of the 5% top expressing cells, divide all values by this median and keep them. If the median is zero, however, the values are divided by the maximum value across all cells instead.
+For each gene separately: If none of the cells transcribe the gene, keep the values as they are (all zeros); Otherwise, calculate the median of the X% top expressing cells (X is specified by the percentForNormalization parameter and is 5 by default), divide all values by this median and keep them. If the median is zero, however, the values are divided by the maximum value across all cells instead.
 The reason behind this step is that scRNA-seq data are normally sparse, namely, the fraction of zeros in the data is large; Thus, by selecting the median of the top 5% cells there is a high likelihood that for most genes the value will be greater than zero, while on the other hand it will also not be an outlier, which may perturb further processing steps.
 
 ## 3. Normalized gene rankings calculation
