@@ -62,7 +62,7 @@ getPathwayScores <- function(dataMatrix, pathwayGenes, percentForNormalization =
   allGenesList <- rownames(dataMatrix)
   pathwayGeneIndices <- match(pathwayGenes,allGenesList)
   pathwayGeneIndices <- pathwayGeneIndices[!is.na(pathwayGeneIndices)]
-  if(length(pathwayGeneIndices) == 0) {return(NA)}
+  if(length(pathwayGeneIndices) < 2) {return(NA)}
   pathwayOnlyData <- dataMatrix[pathwayGeneIndices,]
   
   totalCellsCount <- ncol(pathwayOnlyData)
@@ -86,8 +86,6 @@ getPathwayScores <- function(dataMatrix, pathwayGenes, percentForNormalization =
   # Setting the average of all weighted genes of a cell as its pathway score
   geneScoreSums <- apply(geneScoresMatrix, 2, sum, na.rm = TRUE)
   pathwayScores <- geneScoreSums / numOfPathwayGenes
-  rm(geneScoresMatrix)
-  gc()
   
   outputList <- list("index"= pathwayGeneIndices, "pathwayScores" = pathwayScores)
   return (outputList)

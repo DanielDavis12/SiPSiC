@@ -19,7 +19,7 @@ The percent of top cells for each gene whose median is used to normalize the gen
 }
 }
 \value{
-\item{pathwayScores}{an array (type double) of the pathway score of each cell in the input dataMatrix, unless none of the pathway genes is found in the data, in which case NA is returned.}
+\item{pathwayScores}{an array (type double) of the pathway score of each cell in the input dataMatrix, less than two of the pathway genes are found in the data, in which case NA is returned.}
 \item{index}{a numeric array of the row indices in the dataMatrix where genes of the pathway were found.}
 }
 \references{
