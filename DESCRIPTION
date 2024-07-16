@@ -1,13 +1,13 @@
 Package: SiPSiC
 Type: Package
 Title: Calculate Pathway Scores for Each Cell in scRNA-Seq Data
-Version: 1.2.1
+Version: 1.4.1
 Date: 2022-12-29
 Authors@R: c(person("Daniel", "Davis", role = c("aut", "cre"), email="DanielDavis000@gmail.com", comment=c(ORCID="0000-0001-7863-1521")),
 		 person("Yotam", "Drier", role = "aut"))
 Description: Infer biological pathway activity of cells from single-cell RNA-sequencing data by calculating a pathway score for each cell (pathway genes are specified by the user). It is recommended to have the data in Transcripts-Per-Million (TPM) or Counts-Per-Million (CPM) units for best results. Scores may change when adding cells to or removing cells off the data. SiPSiC stands for Single Pathway analysis in Single Cells.
 License: file LICENSE
-URL: https://doi.org/10.1101/2023.03.27.534310
+URL: https://www.genome.org/cgi/doi/10.1101/gr.278431.123
 biocViews: Software, DifferentialExpression, GeneSetEnrichment, BiomedicalInformatics, CellBiology, Transcriptomics, RNASeq, SingleCell, Transcription, Sequencing, ImmunoOncology, DataImport
 Depends: Matrix, SingleCellExperiment
 Suggests: 
