@@ -5,7 +5,7 @@ The Single Pathway analysis in Single Cells (SiPSiC) package is used to infer bi
 The dataset and list of genes comprising the pathway of interest are provided by the user, then per-cell pathway scores are calculated for all cells by the 'getPathwayScores' function.
 SiPSiC depends on R's 'Matrix' package available on CRAN and on Bioconductor's SingleCellExperiment package. For further information, go to:
 
-[https://doi.org/10.1101/2023.03.27.534310](https://www.genome.org/cgi/doi/10.1101/gr.278431.123)
+[[https://doi.org/10.1101/2023.03.27.534310](https://www.genome.org/cgi/doi/10.1101/gr.278431.123)](https://www.genome.org/cgi/doi/10.1101/gr.278431.123)
 
 Install the package directly from Bioconductor by executing the following commands in an R session:
 
